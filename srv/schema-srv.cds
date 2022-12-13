@@ -67,6 +67,8 @@ service MyService {
 
     @Core : {Description : 'Almacena 1 o más libros' }
     action   batchBooks(value : array of Books) returns String;
+
+    function salutations() returns String;
 }
 
 type oMessage {

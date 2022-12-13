@@ -1,4 +1,3 @@
----
 _schema-version: '3.1'
 ID: BooksShopAuto
 version: 1.0.0
@@ -10,7 +9,6 @@ build-parameters:
     - builder: custom
       commands:
         - npx -p @sap/cds-dk cds build --production
-
 modules:
   - name: BooksShopAuto-srv
     type: nodejs
@@ -25,6 +23,7 @@ modules:
           srv-url: ${default-url}
     requires:
       - name: BooksShopAuto-db
+      - name: BookShopAuto-Logs
 
   - name: BooksShopAuto-db-deployer
     type: hdb
@@ -33,6 +32,7 @@ modules:
       buildpack: nodejs_buildpack
     requires:
       - name: BooksShopAuto-db
+      - name: BookShopAuto-Logs
 
 resources:
   - name: BooksShopAuto-db
@@ -40,3 +40,36 @@ resources:
     parameters:
       service: hana
       service-plan: hdi-shared
+  
+  - name: BookShopAuto-Logs
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: application-logs
+      service-plan: lite
+  
+  # - name: destinationBook-dest # this name is just internal in the mta
+  #   type: destination
+  #   requires:
+  #     - name: srv-api
+  #   parameters:
+  #     config:
+  #       init_data:
+  #         instance:
+  #           existing_destinations_policy: update
+  #           existing_certificates_policy: update
+  #           destinations:
+  #             - Name: BooksShopAuto_front
+  #               URL: ~{srv-api/srv-url}
+  #               Type: HTTP
+  #               ProxyType: Internet
+  #               Authentication: NoAuthentication
+  #               HTML5Runtime_enabled: "true"
+  #               HTML5.ForwardAuthToken: "true"
+  #               HTML5.DynamicDestination: "true"
+  #               HTML5.Timeout: 900000
+  #               timeout: 900000
+  #               # Authentication: BasicAuthentication
+  #               # User: tester
+  #               # Password: 12345
+  #               # WebIDEUsage: odata_gen
+  #               # WebIDEEnabled: true

@@ -1,4 +1,5 @@
-const cds = require('@sap/cds')
+const cds = require('@sap/cds');
+const hello = require('./utils/hello');
 
 module.exports = cds.service.impl(async function () {
     const { Books } = this.entities;
@@ -25,5 +26,11 @@ module.exports = cds.service.impl(async function () {
             console.log("Error", error);
             req.reject(400, error);
         }
+    });
+
+    this.on('salutations', async () => {
+        let myVariable = hello();
+        console.log(myVariable);
+        return myVariable;
     });
 });

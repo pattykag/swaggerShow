@@ -1,0 +1,7 @@
+{
+    "xsappname": "myapp",
+    "tenant-mode": "dedicated",
+    "scopes": [],
+    "attributes": [],
+    "role-templates": []
+}

@@ -17,7 +17,9 @@
     "sqlite3": "^5.0.4"
   },
   "scripts": {
-    "start": "cds run"
+    "start": "cds run",
+    "deploy": "mbt build && cf deploy mta_archives/BooksShopAuto_1.0.0.mtar",
+    "undeploy": "cf undeploy BooksShopAuto --delete-services --delete-service-keys -f"
   },
   "engines": {
     "node": "^16.15"
@@ -51,6 +53,15 @@
     "requires": {
       "db": {
         "kind": "hana-cloud"
+      },
+      "auth": {
+        "kind": "basic-auth",
+        "users": {
+          "tester": {
+            "password": "12345"
+          },
+          "*": false
+        }
       }
     }
   }
